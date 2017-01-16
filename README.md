@@ -1,9 +1,9 @@
-# diuliano/useraclmanager
+# betagt/useraclmanager
 Controle de usuário com Laravel LTS 5.3
 
-###### Adicionando diuliano/useraclmanager no projeto
+###### Adicionando betagt/useraclmanager no projeto
 ```
-composer require diuliano/useraclmanager
+composer require betagt/useraclmanager
 ```
 
 ### Outras dependências do projeto
