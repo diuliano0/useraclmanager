@@ -51,7 +51,7 @@ class UserAclManagerServiceProvider extends ServiceProvider
     public function publishMigration()
     {
         $this->publishes([
-            __DIR__ . '/migrations/' => base_path('/database/migrations'),
+            __DIR__ . '/database/migrations/' => base_path('/database/migrations'),
         ], 'migrations');
         $this->publishes([
             __DIR__ . '/Criteria' => base_path('/Criteria'),
