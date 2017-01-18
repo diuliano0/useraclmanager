@@ -7,6 +7,7 @@ use BetaGT\UserAclManager\Repositories\RoleRepository;
 use BetaGT\UserAclManager\Repositories\RoleRepositoryEloquent;
 use BetaGT\UserAclManager\Repositories\UserRepository;
 use BetaGT\UserAclManager\Repositories\UserRepositoryEloquent;
+use OwenIt\Auditing\AuditingServiceProvider;
 
 /**
  * Created by PhpStorm.
@@ -34,10 +35,12 @@ class UserAclManagerServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../../config/acl.php', 'acl'
+            __DIR__ . '/config/acl.php', 'acl'
         );
         $this->app->register(\Prettus\Repository\Providers\RepositoryServiceProvider::class);
-        $this->app->register(\Kodeine\Acl\AclServiceProvider::class);
+        $this->app->register(AuditingServiceProvider::class);
+        //verificar o publish que está indo errado
+        //$this->app->register(\Kodeine\Acl\AclServiceProvider::class);
         /*$loader = \AliasLoader::getInstance();
         $loader->alias('Breadcrumbs', \DaveJamesMiller\Breadcrumbs\Facade::class);*/
         $this->app->bind(UserRepository::class, UserRepositoryEloquent::class);
@@ -48,28 +51,28 @@ class UserAclManagerServiceProvider extends ServiceProvider
     public function publishMigration()
     {
         $this->publishes([
-            __DIR__ . '/../../migrations/' => base_path('/database/migrations'),
+            __DIR__ . '/migrations/' => base_path('/database/migrations'),
         ], 'migrations');
         $this->publishes([
-            __DIR__ . '/../../UserAclManager/Criteria' => base_path('/Criteria'),
+            __DIR__ . '/Criteria' => base_path('/Criteria'),
         ], 'criteria');
         $this->publishes([
-            __DIR__ . '/../../UserAclManager/Models' => base_path('/Models'),
+            __DIR__ . '/Models' => base_path('/Models'),
         ], 'models');
         $this->publishes([
-            __DIR__ . '/../../UserAclManager/Presenter' => base_path('/Presenter'),
+            __DIR__ . '/Presenters' => base_path('/Presenter'),
         ], 'presenter');
         $this->publishes([
-            __DIR__ . '/../../UserAclManager/Repositories' => base_path('/Repositories'),
+            __DIR__ . '/Repositories' => base_path('/Repositories'),
         ], 'repositories');
         $this->publishes([
-            __DIR__ . '/../../UserAclManager/Services' => base_path('/Services'),
+            __DIR__ . '/Services' => base_path('/Services'),
         ], 'services');
         $this->publishes([
-            __DIR__ . '/../../UserAclManager/Transformers' => base_path('/Transformers'),
+            __DIR__ . '/Transformers' => base_path('/Transformers'),
         ], 'transformers');
         $this->publishes([
-            __DIR__ . '/../../UserAclManager/Http' => base_path('/Http'),
+            __DIR__ . '/Http' => base_path('/Http'),
         ], 'http');
     }
     /**
@@ -78,7 +81,7 @@ class UserAclManagerServiceProvider extends ServiceProvider
     public function publishConfig()
     {
         $this->publishes([
-            __DIR__ . '/../../config/acl.php' => config_path('acl.php'),
+            __DIR__ . '/config/acl.php' => config_path('acl.php'),
         ], 'config');
     }
 }

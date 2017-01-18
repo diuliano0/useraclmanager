@@ -15,7 +15,8 @@
         "league/fractal": "^0.14.0",
         "kodeine/laravel-acl": "~1.0@dev",
         "doctrine/dbal": "^2.5",
-        "laravel/passport": "^1.0"
+        "laravel/passport": "^1.0",
+        "owen-it/laravel-auditing": "3.1.10"
     },
     "autoload": {
         "psr-4": {

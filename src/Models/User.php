@@ -7,12 +7,13 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Kodeine\Acl\Traits\HasRole;
 use Laravel\Passport\HasApiTokens;
+use OwenIt\Auditing\Auditable;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 class User extends Authenticatable implements Transformable
 {
-    use Notifiable,HasApiTokens,SoftDeletes,TransformableTrait,HasRole;
+    use Notifiable,HasApiTokens,SoftDeletes,TransformableTrait,HasRole, Auditable;
 
     protected $fieldSearchable = [
         'name'=>'like',
