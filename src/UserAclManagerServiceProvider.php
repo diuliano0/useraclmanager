@@ -46,6 +46,7 @@ class UserAclManagerServiceProvider extends ServiceProvider
         $this->app->bind(UserRepository::class, UserRepositoryEloquent::class);
         $this->app->bind(RoleRepository::class, RoleRepositoryEloquent::class);
         $this->app->bind(PermissionRepository::class, PermissionRepositoryEloquent::class);
+        //php artisan auditing:install
     }
 
     public function publishMigration()
