@@ -55,25 +55,25 @@ class UserAclManagerServiceProvider extends ServiceProvider
             __DIR__ . '/database/migrations/' => base_path('/database/migrations'),
         ], 'migrations');
         $this->publishes([
-            __DIR__ . '/Criteria' => base_path('/Criteria'),
+            __DIR__ . '/Criteria' => base_path('/app/Criteria'),
         ], 'criteria');
         $this->publishes([
-            __DIR__ . '/Models' => base_path('/Models'),
+            __DIR__ . '/Models' => base_path('/app/Models'),
         ], 'models');
         $this->publishes([
-            __DIR__ . '/Presenters' => base_path('/Presenter'),
+            __DIR__ . '/Presenters' => base_path('/app/Presenter'),
         ], 'presenter');
         $this->publishes([
-            __DIR__ . '/Repositories' => base_path('/Repositories'),
+            __DIR__ . '/Repositories' => base_path('/app/Repositories'),
         ], 'repositories');
         $this->publishes([
-            __DIR__ . '/Services' => base_path('/Services'),
+            __DIR__ . '/Services' => base_path('/app/Services'),
         ], 'services');
         $this->publishes([
-            __DIR__ . '/Transformers' => base_path('/Transformers'),
+            __DIR__ . '/Transformers' => base_path('/app/Transformers'),
         ], 'transformers');
         $this->publishes([
-            __DIR__ . '/Http' => base_path('/Http'),
+            __DIR__ . '/Http' => base_path('/app/Http'),
         ], 'http');
     }
     /**
