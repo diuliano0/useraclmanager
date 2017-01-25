@@ -8,10 +8,10 @@ use Illuminate\Http\Response;
 use Laravel\Passport\Client;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
-use Portal\Criteria\ClientCriteria;
-use Portal\Criteria\OrderCriteria;
-use Portal\Http\Controllers\BaseController;
-use Portal\Repositories\ClientRepository;
+use BetaGT\UserAclManager\Criteria\ClientCriteria;
+use BetaGT\UserAclManager\Criteria\OrderCriteria;
+use BetaGT\UserAclManager\Http\Controllers\BaseController;
+use BetaGT\UserAclManager\Repositories\ClientRepository;
 
 class ClientTokenController extends BaseController
 {
