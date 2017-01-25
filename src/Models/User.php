@@ -2,10 +2,10 @@
 
 namespace BetaGT\UserAclManager\Models;
 
+use BetaGT\UserAclManager\Traits\HasRole;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Kodeine\Acl\Traits\HasRole;
 use Laravel\Passport\HasApiTokens;
 use OwenIt\Auditing\Auditable;
 use Prettus\Repository\Contracts\Transformable;
@@ -13,13 +13,11 @@ use Prettus\Repository\Traits\TransformableTrait;
 
 class User extends Authenticatable implements Transformable
 {
-    use Notifiable,HasApiTokens,SoftDeletes,TransformableTrait,HasRole, Auditable;
+    use Notifiable, HasApiTokens, SoftDeletes, TransformableTrait, HasRole, Auditable;
 
-    protected $fieldSearchable = [
-        'name'=>'like',
-        'email'=>'like',
-        'sexo',
-    ];
+    const INATIVO = "inativo";
+    const ATIVO = "ativo";
+    const BLOQUEADO = "bloqueado";
     /**
      * The attributes that are mass assignable.
      *
@@ -28,6 +26,14 @@ class User extends Authenticatable implements Transformable
     protected $fillable = [
         'name', 'email',  'password','email_alternativo', 'sexo', 'imagem', 'chk_newsletter'
     ];
+
+    public function findForPassport($username) {
+        $return = $this->where('email', $username)->first();
+        if($return->status != self::ATIVO){
+            return;
+        }
+        return $return;
+    }
 
     /**
      * The attributes that should be hidden for arrays.
@@ -41,9 +47,9 @@ class User extends Authenticatable implements Transformable
     protected $dates = ['deleted_at'];
 
     public static $_SEXO = [
-            1=>'masculino',
-            2=>'feminino'
-        ];
+        1=>'masculino',
+        2=>'feminino'
+    ];
 
 
     public function setPasswordAttribute($value)

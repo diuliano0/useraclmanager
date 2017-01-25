@@ -2,13 +2,9 @@
 namespace BetaGT\UserAclManager;
 use BetaGT\UserAclManager\Providers\RepositoryServiceProvider;
 use Illuminate\Support\ServiceProvider;
-use BetaGT\UserAclManager\Repositories\PermissionRepository;
-use BetaGT\UserAclManager\Repositories\PermissionRepositoryEloquent;
-use BetaGT\UserAclManager\Repositories\RoleRepository;
-use BetaGT\UserAclManager\Repositories\RoleRepositoryEloquent;
-use BetaGT\UserAclManager\Repositories\UserRepository;
-use BetaGT\UserAclManager\Repositories\UserRepositoryEloquent;
+use Laravel\Passport\PassportServiceProvider;
 use OwenIt\Auditing\AuditingServiceProvider;
+use Illuminate\Foundation\AliasLoader;
 
 /**
  * Created by PhpStorm.
@@ -41,10 +37,12 @@ class UserAclManagerServiceProvider extends ServiceProvider
         $this->app->register(\Prettus\Repository\Providers\RepositoryServiceProvider::class);
         $this->app->register(AuditingServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
+        $this->app->register(PassportServiceProvider::class);
+        $loader = AliasLoader::getInstance();
+        $loader->alias('acl', \Kodeine\Acl\Middleware\HasPermission::class);
+        Passport::routes();
         //verificar o publish que está indo errado
         //$this->app->register(\Kodeine\Acl\AclServiceProvider::class);
-        /*$loader = \AliasLoader::getInstance();
-        $loader->alias('Breadcrumbs', \DaveJamesMiller\Breadcrumbs\Facade::class);*/
         /*$this->app->bind(UserRepository::class, UserRepositoryEloquent::class);
         $this->app->bind(RoleRepository::class, RoleRepositoryEloquent::class);
         $this->app->bind(PermissionRepository::class, PermissionRepositoryEloquent::class);*/

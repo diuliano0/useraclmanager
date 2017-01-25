@@ -2,6 +2,8 @@
 
 namespace BetaGT\UserAclManager\Http\Controllers\Api;
 
+use BetaGT\UserAclManager\Criteria\OrderCriteria;
+use BetaGT\UserAclManager\Criteria\PermissionCriteria;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -64,10 +66,18 @@ class PermissionController extends BaseController
      */
     public function index(Request $request){
 
-        return $this->permissionRepository
-            ->pushCriteria(new BetweenCriteria('created_at',$request))
-            ->pushCriteria(new BetweenCriteria('updated_at',$request))
-            ->paginate(parent::$_PAGINATION_COUNT);
+        try{
+            return $this->permissionRepository
+                ->pushCriteria(new PermissionCriteria($request))
+                ->pushCriteria(new OrderCriteria($request))
+                ->paginate(parent::$_PAGINATION_COUNT);
+        }
+        catch (ModelNotFoundException $e){
+            return parent::responseError(parent::HTTP_CODE_NOT_FOUND, $e->getMessage());
+        }
+        catch (\Exception $e){
+            return parent::responseError(parent::HTTP_CODE_BAD_REQUEST, $e->getMessage());
+        }
     }
 
 

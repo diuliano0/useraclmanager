@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email_alternativo');
             $table->string('sexo');
             $table->string('imagem')->nullable();
-            //$table->enum('role',['Administrador','Normal','Anunciante','Imobiliaria']);
+            $table->enum('status',['ativo','boqueado','inativo']);
             $table->boolean('chk_newsletter')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -2,6 +2,8 @@
 
 namespace BetaGT\UserAclManager\Http\Controllers\Api;
 
+use BetaGT\UserAclManager\Criteria\OrderCriteria;
+use BetaGT\UserAclManager\Criteria\RoleCriteria;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -59,10 +61,16 @@ class RoleController extends BaseController
      * @return mixed
      */
     public function index(Request $request){
-        return $this->roleRepository
-            ->pushCriteria(new BetweenCriteria('created_at',$request))
-            ->pushCriteria(new BetweenCriteria('updated_at',$request))
-            ->paginate(parent::$_PAGINATION_COUNT);
+        try{
+            return $this->roleRepository
+                ->pushCriteria(new RoleCriteria($request))
+                ->pushCriteria(new OrderCriteria($request))
+                ->paginate(parent::$_PAGINATION_COUNT);
+        }catch (\PDOException $e){
+            return parent::responseError(parent::HTTP_CODE_BAD_REQUEST, $e->getMessage());
+        }catch (\Exception $e){
+            return parent::responseError(parent::HTTP_CODE_BAD_REQUEST, $e->getMessage());
+        }
     }
 
     /**

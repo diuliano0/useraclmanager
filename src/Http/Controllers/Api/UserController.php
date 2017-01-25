@@ -2,6 +2,8 @@
 
 namespace BetaGT\UserAclManager\Http\Controllers\Api;
 
+use BetaGT\UserAclManager\Criteria\OrderCriteria;
+use BetaGT\UserAclManager\Criteria\UserCriteria;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -66,10 +68,16 @@ class UserController extends BaseController
      */
     public function index(Request $request){
 
-        return $this->userRepository
-            ->pushCriteria(new BetweenCriteria('created_at',$request))
-            ->pushCriteria(new BetweenCriteria('updated_at',$request))
-            ->paginate(parent::$_PAGINATION_COUNT);
+        try{
+            return $this->userRepository
+                ->pushCriteria(new UserCriteria($request))
+                ->pushCriteria(new OrderCriteria($request))
+                ->paginate(parent::$_PAGINATION_COUNT);
+        }catch (\PDOException $e){
+            return parent::responseError(parent::HTTP_CODE_BAD_REQUEST, $e->getMessage());
+        }catch (\Exception $e){
+            return parent::responseError(parent::HTTP_CODE_BAD_REQUEST, $e->getMessage()."[{$e->getLine()}]");
+        }
     }
 
     /**
