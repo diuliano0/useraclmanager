@@ -1,6 +1,7 @@
 <?php
 namespace BetaGT\UserAclManager;
 use BetaGT\UserAclManager\Providers\RepositoryServiceProvider;
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 use Laravel\Passport\PassportServiceProvider;
@@ -42,6 +43,8 @@ class UserAclManagerServiceProvider extends ServiceProvider
         $loader = AliasLoader::getInstance();
         $loader->alias('acl', \Kodeine\Acl\Middleware\HasPermission::class);
         Passport::routes();
+        Passport::tokensExpireIn(Carbon::now()->addHour(5));
+        Passport::refreshTokensExpireIn(Carbon::now()->addDay(1));
         //verificar o publish que está indo errado
         //$this->app->register(\Kodeine\Acl\AclServiceProvider::class);
         /*$this->app->bind(UserRepository::class, UserRepositoryEloquent::class);
