@@ -31,7 +31,7 @@ class RouteRegistrar
 
     public static function crudRoutes(){
         Route::group(['prefix'=>'v1'], function () {
-            Route::group(['prefix'=>'admin','middleware' => ['auth:api'],'namespace'=>'Api'],function (){
+            Route::group(['prefix'=>'admin','middleware' => ['auth:api'],'namespace'=>'\BetaGT\UserAclManager\Http\Controllers\Api'],function (){
 
                 Route::patch('user/password/change', [
                     'as' => 'user.alterar_senha',
