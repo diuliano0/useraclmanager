@@ -1,17 +1,77 @@
 # betagt/useraclmanager
-Controle de usuário com Laravel LTS 5.3
+`Controle de usuário com Laravel LTS 5.3`
 
-###### Adicionando betagt/useraclmanager no projeto
-```
+## Instalação
+
+Execute o seguinte comando para obter a versão mais recente do pacote
+```terminal
 composer require betagt/useraclmanager
 ```
-###### Adicionando Laravel-Auditing no projeto
+### No seu `config/app.php` add `\BetaGT\UserAclManager\UserAclManagerServiceProvider::class` no final do array `providers`:
+```php
+   'providers' => [
+       ...
+       Prettus\Repository\Providers\RepositoryServiceProvider::class,
+   ],
 ```
+#### Autenticação Passport 
+No seu `config/auth.php` no array de guards alterar para o drive do `passport`:
+```php
+   'api' => [
+       'driver' => 'passport',
+       'provider' => 'users',
+   ],
+```
+No seu `config/auth.php` no array de providers alterar para o `model` de usuráio:
+```php
+   'providers' => [
+       'users' => [
+           'driver' => 'eloquent',
+           'model' => \BetaGT\UserAclManager\Models\User::class,
+       ],
+```
+Publicando configuração
+```shell
+php artisan vendor:publish --force
+```
+#### Rodando as Seeders
+No arquivo `DatabaseSeeder.php` adicione as linhas no método `run()`
+```
+ public function run()
+     {
+          $this->call(UsersTableSeeder::class);
+          $this->call(PermissionTableSeeder::class);
+     }
+```
+#### Banco de dados
+Acesse o arquivo `.env` na raiz e adicione as configurações de banco de dados antes dos próximos passos.
+
+#### Instalação Laravel-Passport 
+Instalando `Laravel-Passport` no projeto
+```shell
+php artisan passport:install
+```
+
+#### Instalação Laravel-Auditing 
+Instalando `Laravel-Auditing` no projeto
+```shell
 php artisan auditing:install
 ```
-###### Iniciando banco de dados
+
+#### Autenticação Passport 
+No seu `config/auditing.php` no array de configuração altere a linha que indica a rota da classe de usuário:
+```php
+   'model' => \BetaGT\UserAclManager\Models\User::class,
 ```
+
+### Iniciando banco de dados
+```shell
 php artisan migrate --seed
+```
+ou
+```
+php artisan migrate
+php artisan db:seed
 ```
 
 
