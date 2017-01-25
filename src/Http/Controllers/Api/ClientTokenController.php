@@ -6,10 +6,12 @@ namespace BetaGT\UserAclManager\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laravel\Passport\Client;
-use Laravel\Passport\ClientRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
-use BetaGT\UserAclManager\Http\Controllers\BaseController;
+use Portal\Criteria\ClientCriteria;
+use Portal\Criteria\OrderCriteria;
+use Portal\Http\Controllers\BaseController;
+use Portal\Repositories\ClientRepository;
 
 class ClientTokenController extends BaseController
 {
@@ -18,7 +20,7 @@ class ClientTokenController extends BaseController
      *
      * @var ClientRepository
      */
-    protected $clients;
+    protected $clientRepository;
 
     /**
      * The validation factory implementation.
@@ -35,17 +37,30 @@ class ClientTokenController extends BaseController
      * @return void
      */
     public function __construct(
-        ClientRepository $clients,
+        ClientRepository $clientRepository,
         ValidationFactory $validation
     )
     {
-        $this->clients = $clients;
+        $this->clientRepository = $clientRepository;
         $this->validation = $validation;
+    }
+
+    public function index(Request $request){
+        try{
+            return $this->clientRepository
+                ->pushCriteria(new ClientCriteria($request))
+                ->pushCriteria(new OrderCriteria($request))
+                ->paginate(parent::$_PAGINATION_COUNT);
+        }catch (\PDOException $e){
+            return parent::responseError(parent::HTTP_CODE_BAD_REQUEST, trans('errors.sql_state.error_search_list', ['code'=>$e->getCode()]));
+        }catch (\Exception $e){
+            return parent::responseError(parent::HTTP_CODE_BAD_REQUEST, $e->getMessage()."[{$e->getLine()}]");
+        }
     }
 
     public function userRevoke($id){
         try{
-            if(!$this->clients->revoked($id))
+            if(!$this->clientRepository->revoked($id))
                 throw new \Exception(trans('errors.invalid_client',['recurso'=>'Cliente']));
             return parent::responseSuccess(parent::HTTP_CODE_OK,trans('success.client.revoke'));
         }catch (\Exception $e){
@@ -55,9 +70,9 @@ class ClientTokenController extends BaseController
 
     public function updateToken($clientId){
         try{
-            if(!$this->clients->regenerateSecret($this->clients->find($clientId)))
-                throw new \Exception(trans('errors.invalid_client'));
-            return parent::responseSuccess(parent::HTTP_CODE_OK,trans('success.client.revoke'));
+            return $this->clientRepository->regenerateSecret($clientId);
+        }catch (\PDOException $e){
+            return parent::responseError(parent::HTTP_CODE_BAD_REQUEST, trans('errors.sql_state.error_search_list', ['code'=>$e->getCode()]));
         }catch (\Exception $e){
             return parent::responseError(parent::HTTP_CODE_BAD_REQUEST, $e->getMessage()."[{$e->getLine()}]");
         }
@@ -72,8 +87,7 @@ class ClientTokenController extends BaseController
     public function forUser(Request $request)
     {
         $userId = $request->user()->getKey();
-
-        return $this->clients->activeForUser($userId)->makeVisible('secret');
+        return $this->clientRepository->activeForUser($userId)->makeVisible('secret');
     }
 
     /**
@@ -89,7 +103,7 @@ class ClientTokenController extends BaseController
             'redirect' => 'required|url',
         ])->validate();
 
-        return $this->clients->create(
+        return $this->clientRepository->create(
             $request->user()->getKey(), $request->name, $request->redirect
         )->makeVisible('secret');
     }
@@ -103,7 +117,7 @@ class ClientTokenController extends BaseController
      */
     public function update(Request $request, $clientId)
     {
-        if (! $request->user()->clients->find($clientId)) {
+        if (! $request->user()->clientRepository->find($clientId)) {
             return new Response('', 404);
         }
 
@@ -112,10 +126,14 @@ class ClientTokenController extends BaseController
             'redirect' => 'required|url',
         ])->validate();
 
-        return $this->clients->update(
+        return $this->clientRepository->update(
             $request->user()->clients->find($clientId),
             $request->name, $request->redirect
         );
+    }
+
+    public function createPersonalAccessClient(){
+
     }
 
     /**
@@ -125,15 +143,15 @@ class ClientTokenController extends BaseController
      * @param  string  $clientId
      * @return Response
      */
-    public function destroy(Request $request, $clientId)
+    public function destroy($clientId)
     {
-
-        if (! $request->user()->clients->find($clientId)) {
-            return new Response('', 404);
+        try{
+            $this->clientRepository->revogarTokens($clientId);
+            return parent::responseSuccess(parent::HTTP_CODE_OK,trans('success.client.revoke'));
+        }catch (\PDOException $e){
+            return parent::responseError(parent::HTTP_CODE_BAD_REQUEST, trans('errors.sql_state.error_search_list', ['code'=>$e->getCode()]));
+        }catch (\Exception $e){
+            return parent::responseError(parent::HTTP_CODE_BAD_REQUEST, $e->getMessage()."[{$e->getLine()}]");
         }
-
-        $this->clients->delete(
-            $request->user()->clients->find($clientId)
-        );
     }
 }

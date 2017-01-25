@@ -2,6 +2,7 @@
 namespace BetaGT\UserAclManager;
 use BetaGT\UserAclManager\Providers\RepositoryServiceProvider;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 use Laravel\Passport\PassportServiceProvider;
 use OwenIt\Auditing\AuditingServiceProvider;
 use Illuminate\Foundation\AliasLoader;
