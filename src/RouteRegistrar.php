@@ -3,6 +3,7 @@
 namespace BetaGT\UserAclManager;
 
 use Illuminate\Contracts\Routing\Registrar as Router;
+use Illuminate\Support\Facades\Route;
 
 class RouteRegistrar
 {

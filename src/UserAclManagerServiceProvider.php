@@ -55,26 +55,39 @@ class UserAclManagerServiceProvider extends ServiceProvider
             __DIR__ . '/database/migrations/' => base_path('/database/migrations'),
         ], 'migrations');
         $this->publishes([
+            __DIR__ . '/database/seeds/' => base_path('/database/seeds'),
+        ], 'seeds');
+        $this->publishes([
+            __DIR__ . '/database/factories/' => base_path('/database/factories'),
+        ], 'factories');
+
+        /*$this->publishes([
             __DIR__ . '/Criteria' => base_path('/app/Criteria'),
         ], 'criteria');
+
         $this->publishes([
             __DIR__ . '/Models' => base_path('/app/Models'),
         ], 'models');
+
         $this->publishes([
             __DIR__ . '/Presenters' => base_path('/app/Presenter'),
         ], 'presenter');
+
         $this->publishes([
             __DIR__ . '/Repositories' => base_path('/app/Repositories'),
         ], 'repositories');
+
         $this->publishes([
             __DIR__ . '/Services' => base_path('/app/Services'),
         ], 'services');
+
         $this->publishes([
             __DIR__ . '/Transformers' => base_path('/app/Transformers'),
         ], 'transformers');
+
         $this->publishes([
             __DIR__ . '/Http' => base_path('/app/Http'),
-        ], 'http');
+        ], 'http');*/
     }
     /**
      * Publish the config file to the application config directory
