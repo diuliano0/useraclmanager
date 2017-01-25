@@ -1,5 +1,6 @@
 # betagt/useraclmanager
 `Controle de usuário com Laravel LTS 5.3`
+
 [![Latest Stable Version](https://poser.pugx.org/betagt/useraclmanager/v/stable)](https://packagist.org/packages/betagt/useraclmanager) [![Total Downloads](https://poser.pugx.org/betagt/useraclmanager/downloads)](https://packagist.org/packages/betagt/useraclmanager) [![Latest Unstable Version](https://poser.pugx.org/betagt/useraclmanager/v/unstable)](https://packagist.org/packages/betagt/useraclmanager) [![License](https://poser.pugx.org/betagt/useraclmanager/license)](https://packagist.org/packages/betagt/useraclmanager)
 [![Analytics](https://ga-beacon.appspot.com/UA-61050740-1/l5-repository/readme)](https://packagist.org/packages/betagt/useraclmanager)
 [![Code Climate](https://codeclimate.com/github/betagt/useraclmanager/badges/gpa.svg)](https://codeclimate.com/github/betagt/useraclmanager)
