@@ -1,5 +1,6 @@
 <?php
 namespace BetaGT\UserAclManager;
+use BetaGT\UserAclManager\Providers\RepositoryServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use BetaGT\UserAclManager\Repositories\PermissionRepository;
 use BetaGT\UserAclManager\Repositories\PermissionRepositoryEloquent;
@@ -39,13 +40,14 @@ class UserAclManagerServiceProvider extends ServiceProvider
         );
         $this->app->register(\Prettus\Repository\Providers\RepositoryServiceProvider::class);
         $this->app->register(AuditingServiceProvider::class);
+        $this->app->register(RepositoryServiceProvider::class);
         //verificar o publish que está indo errado
         //$this->app->register(\Kodeine\Acl\AclServiceProvider::class);
         /*$loader = \AliasLoader::getInstance();
         $loader->alias('Breadcrumbs', \DaveJamesMiller\Breadcrumbs\Facade::class);*/
-        $this->app->bind(UserRepository::class, UserRepositoryEloquent::class);
+        /*$this->app->bind(UserRepository::class, UserRepositoryEloquent::class);
         $this->app->bind(RoleRepository::class, RoleRepositoryEloquent::class);
-        $this->app->bind(PermissionRepository::class, PermissionRepositoryEloquent::class);
+        $this->app->bind(PermissionRepository::class, PermissionRepositoryEloquent::class);*/
         //php artisan auditing:install
     }
 
