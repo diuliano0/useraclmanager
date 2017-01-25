@@ -9,6 +9,8 @@
 namespace BetaGT\UserAclManager\Providers;
 
 
+use BetaGT\UserAclManager\Repositories\ClientRepository;
+use BetaGT\UserAclManager\Repositories\ClientRepositoryEloquent;
 use BetaGT\UserAclManager\Repositories\PermissionRepository;
 use BetaGT\UserAclManager\Repositories\PermissionRepositoryEloquent;
 use BetaGT\UserAclManager\Repositories\RoleRepository;
@@ -37,6 +39,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             PermissionRepository::class,
             PermissionRepositoryEloquent::class
+        );
+        $this->app->bind(
+            ClientRepository::class,
+            ClientRepositoryEloquent::class
         );
 
     }
