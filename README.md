@@ -76,7 +76,11 @@ ou
 php artisan migrate
 php artisan db:seed
 ```
-
+#### Registrando Rotas
+No seu arquivo `Providers/AuthServiceProvider.php` insira no método `boot()`:
+```php
+   \BetaGT\UserAclManager\UserAclManager::routes();
+```
 
 ### Outras dependências do projeto
 - [Laravel 5 Passport](https://laravel.com/docs/master/passport)
