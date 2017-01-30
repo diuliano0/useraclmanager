@@ -87,6 +87,15 @@ No seu arquivo `Providers/AuthServiceProvider.php` insira no método `boot()`:
 ```php
    \BetaGT\UserAclManager\UserAclManager::routes();
 ```
+#### Registrando Rotas passport
+No seu arquivo `Providers/AuthServiceProvider.php` insira no método `boot()`:
+```php
+   Passport::routes(null, [
+               'prefix' => 'api/v1'
+           ]);
+           Passport::tokensExpireIn(Carbon::now()->addHour(5));
+           Passport::refreshTokensExpireIn(Carbon::now()->addDay(1));
+```
 
 ### Outras dependências do projeto
 - [Laravel 5 Passport](https://laravel.com/docs/master/passport)
