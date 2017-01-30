@@ -49,6 +49,12 @@ No arquivo `DatabaseSeeder.php` adicione as linhas no método `run()`
 #### Banco de dados
 Acesse o arquivo `.env` na raiz e adicione as configurações de banco de dados antes dos próximos passos.
 
+#### Rodando migrates 
+Instalando banco
+```shell
+php artisan migrate
+```
+
 #### Instalação Laravel-Passport 
 Instalando `Laravel-Passport` no projeto
 ```shell
