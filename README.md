@@ -10,7 +10,7 @@ Execute o seguinte comando para obter a versão mais recente do pacote
 ```terminal
 composer require betagt/useraclmanager
 ```
-### No seu `config/app.php` add `\BetaGT\UserAclManager\UserAclManagerServiceProvider::class` no final do array `providers`:
+No seu `config/app.php` add `\BetaGT\UserAclManager\UserAclManagerServiceProvider::class` no final do array `providers`:
 ```php
    'providers' => [
        ...
