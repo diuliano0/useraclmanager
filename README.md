@@ -14,7 +14,7 @@ No seu `config/app.php` add `\BetaGT\UserAclManager\UserAclManagerServiceProvide
 ```php
    'providers' => [
        ...
-       Prettus\Repository\Providers\RepositoryServiceProvider::class,
+       \BetaGT\UserAclManager\UserAclManagerServiceProvider::class
    ],
 ```
 #### Autenticação Passport 
